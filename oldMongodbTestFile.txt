@@ -1,0 +1,129 @@
+import pymongo
+from pymongo import MongoClient
+
+cluster = MongoClient("mongodb+srv://fiziktim:O2R1aZebbSvEZVf6wO@cluster0.u8nkh.azure.mongodb.net/questions_mdb?retryWrites=true&w=majority")
+db = cluster["questions_mdb"]
+collection = db["questions"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+results = collection.find({})
+for result in results:
+    if isinstance(result["question"], int) == True:
+        print(result["question"][0])
+        print(result["question"])
+    else:
+        print("PUUTE")
+        print(result["question"])
+    #print(" " + result["_id:"]) #to for example, jut print the id
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+collection.update_many(
+    {},
+    { '$set': {"tags": ["Economics", "Finance"]} },
+    {upsert:False, 
+    multi:True}
+)
+'''
+
+
+
+
+
+
+
+'''
+results = collection.find({"isTrue": False})
+for result in results:
+    if isinstance(result["question"], int) == True:
+        print(result["question"][0])
+        print(result["question"])
+    else:
+        print("PUUTE")
+        print(result["question"])
+    #print(" " + result["_id:"]) #to for example, jut print the id
+'''
+
+
+
+
+
+
+
+
+
+#Tags
+#source
+    #path
+        #type
+    #inClass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# make a lil algorithm that puts \ before any quotation mark of this style : ["] in an input string.
+
+
+#post = {"_id": 0, "question": "Pute ?", "isTrue": False}
+#collection.insert_one(post)
+
+#collection.insert_many([postB, post2, post3])
+#collection.find_one(<bwaa>)
+#collection.find({}) to print all the database
+#collection.delete("_id": 35) or collection.delete_one({"_id": 69}) or collecion.delete_many({"isTrue": False})
+#collection.insert_many()
+#collection.update_one({"_id": 5, {$set: {"isTrue": False}}})    
+#more questions ? docs.mongodb.com/manual/operator/update/ ex : $inc to increment
+
+#print(collection.count_documents({})) to count the number of posts you have
+
+
+#more questions ? docs.mongodb.com/manual

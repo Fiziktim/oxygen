@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<body>
+    <h3>Economics</h3>
+    <b>Source : That japanese teacher</b>
+    <br><br>
+    <b>{{ display_this_question }}</b>
+    <br><br>
+    <form action="/" method="POST">
+        <input type="submit" name="mainFalse" value="False">
+        <input type="submit" name="mainTrue"  value="True">
+    </form>
+    <br>
+    <b>5 in a row !!!</b>
+    <br><br><br><br><br><br>
+    <!--<b>Write your question here</b>-->
+    <div class="form">
+    <form action="/" method="POST">
+        <p>Write your new question here:</p>
+        <input type="text" name="new_question" id="new_question"><br>
+        <input type="radio" id="False" name="htmlTruth" value="False">
+        <label for="False">False</label>
+        <input type="radio" id="True" name="htmlTruth" value="True">
+        <label for="True">True</label><br>
+        <input type="submit" name="add_question" value="Add Question">
+    </form>
+    </div>
+    <br>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,166 @@
+import pymongo
+from pymongo import MongoClient
+
+cluster = MongoClient("mongodb+srv://fiziktim:O2R1aZebbSvEZVf6wO@cluster0.u8nkh.azure.mongodb.net/questions_mdb?retryWrites=true&w=majority")
+db = cluster["questions_mdb"]
+collection = db["questions"]
+
+
+postB = {"_id": 1, "question":"Banks offering negative interest rates is made possible by central banks giving even more negative interest rates to classical banks. Allowing them to make a profit.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 2, "question":"12Banks offering negative interest rates on mortgage can be partly made possible by partnerships between the banks and construction companies.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 3, "question":"12According to the textbook, stability is the first objective of central banks.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 4, "question":"12When interest rates falls, the present value of a already made bond rises, because the opportunity cost of placing your money elsewhere gets less interesting", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 5, "question":"12\"Real interest rate\" is interest rate - inflation.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 6, "question":"12Long term interest rate depends on the expectations for the short term interest rate.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 7, "question":"12I invest my wealth in a bond. If it's a 5 years bond, my wealth is more volatile than a 1 year bond.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 8, "question":"12Bonds valuation : \"duration\" means how fast you're gonna get your money back.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 9, "question":"02Bond vocabulary : the \"duration\" is the amount of time the bond will legally last for.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 10, "question":"12The yield is the revenue from an investment over a particular period of time.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 11, "question":"02I invest my wealth in a bond. If it's a 1 year bond, my wealth is more volatile than a 5 year bond.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 12, "question":"02Banks offering negative interest rates is made possible by overinflation.", "isTrue": False}
+postB = {"_id": 13, "question":"02\"The yield\" designates public companies's revenue.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 14, "question":"12When a country defaults, most of the time, nothing happens but a drop in trust from lenders.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 15, "question":"02If a country defaults, its lenders get the right to own part of it.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 16, "question":"02Banks offering negative interest rates is partly made possible by partnerships between the banks and universities.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 17, "question":"12Say the price of the Korean Won goes from 10 USD (today) to 20 USD tomorrow. The Won has appreciated by 100%. (relatively to the USD)", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 18, "question":"02Say the price of the USD goes from 10 korean wons (today) to 20 wons tomorrow. The won has appreciated by 100% (relatively to the USD)", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 19, "question":"02Say the price of the Korean won goes from 10 USD (today) to 20 USD tomorrow. The won has depreciated by 50%. (relatively to the USD)", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 20, "question":"12Say the price of the USD goes from 10 korean wons (today) to 20 wons tomorrow. The won has depreciated by 50%. (relatively to the USD)", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 21, "question":"12Central banks control interest rates by controlling the amount of liquidity in the market.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 22, "question":"12The banks of a country have a bank account in the central bank of the country.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 23, "question":"12Bob wants to make a transfer to Mark, they both have an account in Santandell. Santandell will just do a simple operation between their accounts to transfer the money.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 24, "question":"12If there is a transfer to be made between Bob and John, that have accounts in different spain banks ; their banks will make the transfer through their account in Bank of Spain.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 25, "question":"12Bob has a spanish bank account. He makes a transfer to Marcus, who has a german bank account. In this operation, the money ends up going through the European Central Bank.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 26, "question":"12Bob has a spanish bank account John Cena has an aMURICAN bank account. Bob transfers 69 euros to John Cena. The money will most likely end up going through the Federal Reserve of New York.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 27, "question":"12Bob has a spanish bank account Dan has a Colombian bank account. Bob transfers 42 euros to Dan. The money will most likely end up going through the Federal Reserve of New York.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 28, "question":"02Bob wants to make a transfer to Mark, they both have an account in Santandell. Santandell will work with spain's national bank to transfer their money.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 29, "question":"02If there is a transfer to be made between Bob and John, that have accounts in different spain banks ; their banks will make the transfer through their account in European Central Bank.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 30, "question":"02Bob has a spanish bank account. He makes a transfer to Marcus, who has a german bank account. In this operation, the money is transferred direclty from the spanish to the german bank, without any middleman.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 31, "question":"02Bob has a spanish bank account John Cena has an aMURICAN bank account. Bob transfers 69 euros to John Cena. The money will most likely end up going through the Federal Reserve of the United Nations.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 32, "question":"02Bob has a spanish bank account Dan has a Colombian bank account. Bob transfers 42 euros to Dan. The money will be transferred from bank to bank through the internet without any middleman.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 33, "question":"12Futures are more liquid than forward agreements.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 34, "question":"02Forward agreements are more liquid than futures.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 35, "question":"12Oil (petrol) is considered liquid. (financial terms)", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 36, "question":"12Big macs are more liquid than real estate.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 37, "question":"02Real estate is more liquid than big macs.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 38, "question":"12In a forward agreement, buyer and seller agree on a specific term. Very flexible : they can choose whatever they want.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 39, "question":"02In a future agreement, buyer and seller agree on a specific term. Very flexible : they can choose whatever they want.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 40, "question":"12In a future agreement, the term is always similar to other futures.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 41, "question":"02In a forward agreement, the term is always similar to other forwards.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 42, "question":"12I agree with Tamino to lend him my computer, if he lends me his amateur collection of nuclear weapons. In a week, we all get our stuff back. This agreement is called a \"swap\".", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 43, "question":"02I choose to exchange my computer with Mathilda's hair (it's smooth as fuck, 100% worth it). This exchange between two not-money products is called a \"swap\".", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 44, "question":"02If I buy a debt, it's because I hope that the person in debt won't be able to pay back. Then I make money!", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 45, "question":"12\"Bank of last resort\" : the central bank lends to banks when no one else wants to lend.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 46, "question":"02\"Bank of last resort\" : banks lend to central banks when no one else wants to lend.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 47, "question":"12Tak : \"Bank of spain is now a branch of ECB (European Central Bank)\"", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 48, "question":"02Tak : \"Bank of spain is a completely separate entity from ECB (European Central Bank)\".", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 49, "question":"12If I own junior debt, and the company I own debt to goes banckrupt, I don't start getting money unless all senior debt is paid.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 50, "question":"12Subordinated debt is junior debt.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 51, "question":"12Junior debt carries more interest rate than senior debt.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 52, "question":"02If I own senior debt, and the company I own debt to, goes banckrupt, I don't start getting money unless all junior debt is paid.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 53, "question":"02Subordinated debt carries less power than junior debt.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 54, "question":"02Senior debt carries more interest rate than junior debt.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 55, "question":"02Senior debt and junior debt carry the same interest rate.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 56, "question":"02Bank of last resort : banks are obligated to lend to people of which their life is largely compromised. Ex : if you're going to loose your home, the bank has to accept to loan to you, even at a high-interest rate.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 57, "question":"02Banks never offer negative interest rates.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 58, "question":"02If a bank offers negative interest rates, it looses money.", "isTrue": False}
+collection.insert_one(postB)
+postB = {"_id": 59, "question":"12Banks like to swap out of their interest risk.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 60, "question":"12Looking at mortgages : banks have an interest rate risk : their assets are long term while their liabilities are short term.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 61, "question":"12Bobland is a country that doesn't care about climate change and they pollute a lot. Though they are really small and other countries manage to save the world. Bobland is saved, bobland is a \"free rider\".", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 62, "question":"12A way to value a company is \"Assets - Liabilities\".", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 63, "question":"12IPO discount, is made partly for the shares to rise when public.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 64, "question":"12If you're sure that your decision of buying a new company will turn out much better than the market expects, you should buy the company in cash.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 65, "question":"02If you're sure that your decision of buying a new company will turn out much better than the market expects, you should buy the company in shares.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 66, "question":"12Debiter friendly law : When a banckruptcy happens, it's easier for Banks to get their money and the company gets reckt.", "isTrue": True}
+collection.insert_one(postB)
+postB = {"_id": 67, "question":"12Crediter friendly law : When a banckruptcy happens, it's easier for the company to keep operating and the bank gets reckt.", "isTrue": True}
+collection.insert_one(postB)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# make a lil algorithm that puts \ before any quotation mark of this style : ["] in an input string.
+
+
+#post = {"_id": 0, "question": "Pute ?", "isTrue": False}
+#collection.insert_one(post)
+
+#collection.insert_many([postB, post2, post3])
+
+#results = collection.find({"isTrue": "False"})
+#for result in results:
+#   print(result)
+#   print(result["_id:"]) #to for example, jut print the id

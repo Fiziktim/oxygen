@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<h3>Well this is pretty much a test... What is sucess ?</h3>
+<b>Ps : Here is some dynamic information for you. Bullshitery is activated : {{bIsActivated}}</b>
+<br><br>
+<b>Want more dynamic information ? Well, "uselessVariable" = {{uselessVariable}}</b>
+<br><br><br><br>
+<b>Well I just discovered that between curly braces + percentage signs, you could basically write basic python, example : </b>
+{% for i in range(0,100) %}
+    {% if i%4 == 1 %}
+        <b>Unaesthetic placement that says that i%4 = 1. (i%4 means i modulus 4) - </b>
+        {% for ii in testList %}
+            <b>{{ii}}</b>
+        {% endfor %}
+    {% endif %}
+    <br><br>
+    <b>FoorLoopText - {{i}}</b>
+{% endfor %}
+<br><br>
+<b>PS : variables come in double curly brackets, with no percentages.</b>
+<br><br>
+<b>Bullshitery = {{bullshitery}}. Therefore : </b>
+{% block bullshit %}
+<b>random bullshit in the formatted bullshit block (formated from base.html)</b>
+{% endblock %}
+
+{% endblock %}
