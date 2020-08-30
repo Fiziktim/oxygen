@@ -6,29 +6,51 @@
 
 {% block body %}
 <body>
-    <h3>Economics</h3>
-    <b>Source : That japanese teacher</b>
-    <br><br>
+    <!--<h3>Finance</h3>-->
+    <div class="form">
+        <form action="/" method="POST">
+            <!--{% if field_to_use_and_display != "" %}
+                <h3 display="inline">{{ field_to_use_and_display }}</h3>
+            {% endif %}-->
+            <datalist id="suggestions" name="upper_tags_content" placeholder="Example : Personal Developpement, Nutrition">
+                {% for i in tag_collection %}
+                <option>{{ i }}</option>
+                {% endfor %}
+            </datalist>
+            {% if field_to_use_and_display != "" %}
+                <input  autoComplete="on" list="suggestions" name="upper_tags_content" value="{{ field_to_use_and_display }}"/> 
+            {% else %}
+                <input  autoComplete="on" list="suggestions" name="upper_tags_content"/> 
+            {% endif %}
+            <input type="submit" name="upper_tags_content_submit" value="Change Subject">
+        </form>
+    </div>
+    <br>
+    <b style="color:lightgray">Source : That japanese teacher</b>
+    <br>
     <b>{{ display_this_question }}</b>
     <br><br>
-    <form action="/" method="POST">
-        <input type="submit" name="mainFalse" value="False">
-        <input type="submit" name="mainTrue"  value="True">
-    </form>
+    <div class="form">
+        <form action="/" method="POST" name="mainTruth">
+            <input type="submit" name="mainTruth" value="False">
+            <input type="submit" name="mainTruth"  value="True">
+        </form>
+    </div>
     <br>
-    <b>5 in a row !!!</b>
+    <b style="color:darkgreen">{{ in_a_row }} in a row {% for i in range(0, in_a_row) %}! {% endfor %}</b>
     <br><br><br><br><br><br>
     <!--<b>Write your question here</b>-->
     <div class="form">
-    <form action="/" method="POST">
-        <p>Write your new question here:</p>
-        <input type="text" name="new_question" id="new_question"><br>
-        <input type="radio" id="False" name="htmlTruth" value="False">
-        <label for="False">False</label>
-        <input type="radio" id="True" name="htmlTruth" value="True">
-        <label for="True">True</label><br>
-        <input type="submit" name="add_question" value="Add Question">
-    </form>
+        <form action="/" method="POST">
+            <p>Write your new question here:</p>
+            <input type="text" name="new_question" id="new_question" size="50"><br>
+            <input type="radio" id="False" name="htmlTruth" value="False">
+            <label for="False">False</label>
+            <input type="radio" id="True" name="htmlTruth" value="True">
+            <label for="True">True</label><br>
+            <input type="text" name="tags" id="tags" placeholder="Example : Physics, Quantum Physics, Math" size="40"><br><br>
+            <input type="submit" name="add_question" value="Add Question">
+        </form>
     </div>
     <br>
 </body>

@@ -1,8 +1,15 @@
 html{
     margin-left: 40px;
+    /*color: rgb(73, 73, 73);*/
+    color: red;
 }
 
+/*
 b  {
     color: rgb(73, 73, 73);
     /*background-color: darkgrey;*/
-}
+/*}*/
+/*
+b {
+    color: blue;
+}*/
