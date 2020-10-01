@@ -1,9 +1,36 @@
-html{
-    margin-left: 40px;
-    /*color: rgb(73, 73, 73);*/
-    color: red;
+:root {
+    --background:#1f1f1f;
+    --form-background:#0f0f0f;
+    --classic-text:#cfcfcf;
+    --lines: #666666;
 }
 
+html {
+    margin-left: 40px;
+    /*color: rgb(73, 73, 73);*/
+    background-color: var(--background);
+}
+
+.bodyClass{
+    background-color: var(--background);
+}
+
+p {
+    color:var(--classic-text);
+    /*font-style: "bold";*/
+}
+
+input[type=text] {
+    background-color: var(--form-background);
+    border: none;
+    border-bottom: 2px solid var(--lines);
+    color: var(--classic-text);
+}
+
+input[type="radio"]:checked + label {
+    color: var(--classic-text);
+}
+    
 /*
 b  {
     color: rgb(73, 73, 73);

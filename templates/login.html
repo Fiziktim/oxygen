@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="form">
+  <form action="/login" method="POST">
+      <!--<p>Login :</p>-->
+      <input type="text" name="email" id="email" placeholder="Email adress" value="{{ email_field }}" size="52" required><br>
+      <!--<input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" size="52"><br>-->
+      <input type="submit" name="login" value="Login"><br><br>
+      <p>(Don't have an account yet ? <a href="/create_an_account">create an account</a>)</p>
+  </form>
+</div>
+{{ error }}
+{% endblock %}

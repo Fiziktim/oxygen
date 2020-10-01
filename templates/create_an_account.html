@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="content">
+  <div class="form">
+    <form action="/create_an_account" method="POST">
+        <!--<p>Create your new account here:</p>-->
+        <input type="text" name="first_name" id="first_name" size="25" placeholder="First name" value="{{ first_name_field }}" required>
+        <input type="text" name="last_name" id="last_name" size="25" placeholder="Last name" value="{{ last_name_field }}" required><br>
+        <input type="text" name="email" id="email" placeholder="Email adress" size="52" value="{{ email_field }}" required><br>
+        <input type="password" name="password" id="password" placeholder="Password" size="52" required><br>
+        <!--<input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" size="52"><br>-->
+        <p>By clicking Create Account, you accept the website's <a href="terms_of_use">terms of use</a>.</p>
+        <input type="submit" name="create_account" value="Create Account"><br><br>
+        <p>(Already have an account? <a href="/login">login</a>)</p>
+    </form>
+  </div>
+</div>
+
+{{ error }}
+
+{% endblock %}

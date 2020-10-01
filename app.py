@@ -1,5 +1,5 @@
 #version bourrin (mais où on se fait moins chier avec les freeze requirements): import flask, pymongo, json, bson, random, time, datetime, werkzeug
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
 #from flask_mongoengine import MongoEngine
 import pymongo
 from pymongo import MongoClient
@@ -9,10 +9,12 @@ import json
 import bson
 import random
 import time
+import unicodedata
 
 app = Flask(__name__)
-app.secret_key = "d§èijhgcfd2456)" #For sessions. Used to encrypt session data.
+app.secret_key = "d§èijhgcfd2456)" #For sessions. Used to encrypt session data. #THO UNSAFE, BECAUSE REALLY EASY TO DECRYPT : https://blog.miguelgrinberg.com/post/how-secure-is-the-flask-user-session --- Hash sensitive or hackable data. FOR NOW : VULNERABILITY 
 bullshitery = True
+linkitery = False
 #app.permanent_session_lifetime = timedelta(days=30) #erases permanent session data after 30 days (can also be set to minutes)
 
 cluster = MongoClient("mongodb+srv://fiziktim:O2zcT4Zkj8pa1SeKzt@cluster0.u8nkh.azure.mongodb.net/questions_mdb?retryWrites=true&w=majority")
@@ -20,6 +22,18 @@ db = cluster["questions_mdb"]
 collection = db["questions_new"]
 collection_stats = db["stats"]
 collection_tags = db["tags"]
+collection_users = db["users"]
+PYTHONHASHSEED = 2821220674
+
+def strip_accents(text):
+    try:
+        text = unicode(text, 'utf-8')
+    except NameError: # unicode is a default on python 3 
+        pass
+    text = unicodedata.normalize('NFD', text)\
+           .encode('ascii', 'ignore')\
+           .decode("utf-8")
+    return str(text)
 
 def print_all_documentTags_CountIDs(): # WORKS
     results = collection_tags.find({})
@@ -46,6 +60,9 @@ def backup_collection(collection_name,backup_collection_name): # WOEKS
 
 #db.collection.rename({"questions"})
 
+def obvious_print(to_print):
+    print('\n\n\nPUUUUUUUUUUUUUUUUUUUUTE : ' + str(to_print) + ' \n\n\n')
+
 def add_or_overrite_new_field_to_every_doc_in_collection(field, value_of_field): # WORKS
     i = 0
     results = collection.find({})
@@ -55,17 +72,44 @@ def add_or_overrite_new_field_to_every_doc_in_collection(field, value_of_field):
         collection.update_one(result, {"$set":{str(field): value_of_field}})
         print(collection.find_one({"_id": result["_id"]}))
 
-def remove_malicious_characters(string): # WORKS
-    old_string = string
-    new_string = ""
-    for char in old_string:
-        if char == "\"":
-                char = "\\\""
-        if char == ("\\"):
-            char = ""
-        #print(char, end="")
-        new_string = new_string + char
-    return new_string
+def remove_malicious_characters(string, removeSpeChars = False): # WORKS
+    string = str(string)
+    string = string.strip(' ').strip('\\').strip('\r').strip('\t')
+
+    if removeSpeChars:
+        classical_chars = 'abcdefghijklmnopqrstuvwxyz-'
+        classical_chars = list(classical_chars)
+        for char in string.lower():
+            if char not in classical_chars:
+                string = string.replace(char, '')
+    
+    return string
+
+def isEmailLegitimate(emailAdress):
+    str(emailAdress)
+    correctness = 0
+    atDone = False
+    lastDotDone = False
+    if emailAdress[:1] == "@": #if emailAdress[:1] in ("@", "."):
+        obvious_print("The first character is either @ or .")
+        return False
+    for char in emailAdress:
+        if char == "@":
+            if atDone == False:
+                correctness += 1
+                atDone = True
+            else:
+                return False
+        elif char == "." and atDone and not lastDotDone:
+            if lastDotDone == False:
+                correctness += 1
+                lastDotDone = True
+        elif char == " ": #elif char in ("°", "é", "\'", "\"", "^", "¨", "$", "€", "*", "°", "#", "&")
+            return False
+    if correctness == 2:
+        return True
+    else:
+        return False
 
 def BaseFunctionToCopyACollectionToANewOneToChangeHowIDsBehaveLikeReplacingObjectIDsByHereCountIDs(): # Works
     results = collection.find({})
@@ -145,10 +189,35 @@ def index():
         requestMethod_firstChars = requestMethod_firstChars[0:4]
         print(requestMethod_firstChars)
         if requestMethod_firstChars == "new_": # Inputing a new question
+            obvious_print("new_ request")
             new_question = request.form["new_question"]
-            if new_question != "":
+            if new_question != "": 
                 new_isTrue = request.form["htmlTruth"]
-                new_tags_string = request.form["tags"]
+                new_source = remove_malicious_characters(request.form["source"])
+                new_source_type = remove_malicious_characters(request.form["source_type"])
+                try:
+                    new_author = remove_malicious_characters(request.form["source_author"])
+                except ValueError as ve:
+                    obvious_print(ve)
+                    new_author = None
+                session["source_path"] = [{"new_source":new_source,"new_source_type":new_source_type,"new_author":new_author}]
+
+                #####
+                try:
+                    new_source_2 = remove_malicious_characters(request.form["source_2"])
+                    new_source_type_2 = remove_malicious_characters(request.form["source_type_2"])
+                    try:
+                        new_author_2 = remove_malicious_characters(request.form["source_author_2"])
+                    except:
+                        new_author_2 = None
+                    
+                    session["source_path"].append({"new_source":new_source_2,"new_source_type":new_source_type_2,"new_author":new_author_2})
+
+                except:
+                    pass
+                #####
+
+                new_tags_string = remove_malicious_characters(request.form["tags"])
                 new_tags_string = new_tags_string + ","
                 new_tag = ""
                 new_tags = []
@@ -186,14 +255,50 @@ def index():
                 print(question_tag_array)
                 number = int(NumberOfSubmittedQuestions())
                 new_question = remove_malicious_characters(new_question) #Against Injection attacks and to allow chars like """
-                collection.insert_one({"CountID": number, "question": new_question, "isTrue": new_isTrue, "ToDisplay": True, "Tags": question_tag_array})
+
+                # Removes most perfect duplicates from input questions
+                current_doc = {"CountID": number, "question": new_question, "isTrue": new_isTrue, "ToDisplay": True, "Tags": question_tag_array, "source_path": session["source_path"]} # After, we'll add a source chain
+                if "inserted_questions" not in session:
+                    session["inserted_questions"] = []
+                if hash(str(current_doc["question"])) not in session["inserted_questions"]:
+                    collection.insert_one(current_doc) # VULNERABILITY You can still get spammed with duplicates tho, if you don't watch out, this is only checking if they are duplicate in the session
+                    session["inserted_questions"].append(hash(str(current_doc["question"]))) # Removed Vulnerability : Dunno how sessions work, but maybe you could get the session data of someone and know which questions they inserted. You still can but it's hashed now. You're welcome 
+                    obvious_print( str(hash(str(current_doc["question"]))) + " is not in " + str(session["inserted_questions"]))
+                else:
+                    obvious_print( str(hash(str(current_doc["question"]))) + " is in " + str(session["inserted_questions"]))
+                    return "<p>This question has already been inserted</p>"
+                
+                #obvious_print( str(session) + "\n" + str(session["inserted_questions"]) + "\n" + str(hash(str(current_doc["question"]))) ) #########
+
                 incNumberOfSubmittedQuestions()
                 print("\nAdded new question as question number " + str(number) + "\n")
+            #return render_template("/")
             return redirect(url_for("pagex", testx=new_question))
         elif requestMethod_firstChars == "main": #The user clicked on "True" or "False" at the top
-            random_id = random.randint(0, collection.count_documents({}))
-            print("RANDOM_ID : " + str(random_id))
-            question_to_display = collection.find_one({"CountID": random_id})
+            obvious_print("main request")
+            print("\n" + session["upper_tag"] + "\n")
+            '''
+            try:
+                find_tag_CountID_by_main_english_name(request.form["upper_tags_content"])
+            except:
+                return "unexistant tag"'''
+
+
+
+            #random_id = random.randint(0, collection.count_documents({}))
+            #print("RANDOM_ID : " + str(random_id))
+            #question_to_display = collection.find_one({"CountID": random_id})
+
+            #question_to_display = collection.aggregate([{ '$sample': { 'size': 1 } }])
+
+            tag_countID = find_tag_CountID_by_main_english_name(session['upper_tag'])
+            print("TAG COUNTID : " + str(tag_countID))
+            question_to_display = collection.aggregate([{ '$match': { 'Tags': tag_countID } },{ '$sample': { 'size': 1 } }])
+            for finite in question_to_display:
+                question_to_display = finite
+            #obvious_print(find_tag_CountID_by_main_english_name(session['upper_tag']))
+
+
             print(question_to_display["isTrue"])
             print(request.form["mainTruth"])
             if str(request.form["mainTruth"]) == str(question_to_display["isTrue"]):
@@ -211,14 +316,14 @@ def index():
             tag_collection = return_all_present_tags_with_their_CountIDs_or_just_the_tags(False, False)
             return render_template("index.html", display_this_question=question_to_display["question"], in_a_row=in_a_row, tag_collection=tag_collection)
         elif requestMethod_firstChars == "uppe":
+            obvious_print("uppe request")
             in_a_row = 0
-            field_to_use_and_display = request.form["upper_tags_content"]
+            session["upper_tag"] = request.form["upper_tags_content"]
             random_id = random.randint(0, collection.count_documents({})) # THIS LINE IS REPEATED
             question_to_display = collection.find_one({"CountID": random_id}) # THIS LINE IS REPEATED
             tag_collection = return_all_present_tags_with_their_CountIDs_or_just_the_tags(False, False) # THIS LINE IS REPEATED
-            print("\n" + field_to_use_and_display + "\n")
-            return render_template("index.html", display_this_question=question_to_display["question"], in_a_row=in_a_row, tag_collection=tag_collection, field_to_use_and_display=field_to_use_and_display) # THIS LINE IS REPEATED
-
+            print("\n" + session["upper_tag"] + "\n")
+            return render_template("index.html", display_this_question=question_to_display["question"], in_a_row=in_a_row, tag_collection=tag_collection, field_to_use_and_display=session["upper_tag"], source_path=session["source_path"]) # THIS LINE IS REPEATED
     else:
         random_id = random.randint(0, collection.count_documents({}))
         question_to_display = collection.find_one({"CountID": random_id})
@@ -240,6 +345,95 @@ def chibre_du_bengale():
 def test():
     return render_template('test.html', bIsActivated=bullshitery, uselessVariable=69, testList = ['Patrick, ', 'Michel, ', 'Gérard'], bullshitery=bullshitery)
 
+@app.route('/<testx>')
+def pagex(testx):
+    return "Wesh" + testx
+
+'''
+@app.route('/<userName>')
+@app.route('/<userName>/<fromAccountCreation>') #You can find a way to make the "fromAccountCreation" argument invisible
+def userX(userName, fromAccountCreation=False): # Irrelevant, we need a email verification process.
+    obvious_print("From account creation" + str(fromAccountCreation))
+    if fromAccountCreation == False:
+        username_list = collection_users.distinct('username', {}, {})
+        if userName in username_list:
+            return ('<h3>This is the home page of ' + userName + '</h3>') #You also need to make these a unique shot
+        else:
+            return "<p>This content is unavailable, or not anymore.<br><br><a href='/'>Get back to Oxygen</a></p>"
+    else:
+        return ('<h3>This is the home page of ' + userName + '</h3>') #You also need to make these a unique shot
+'''
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    error = ""
+    if 'email_fkeep' not in session:
+        session['email_fkeep'] = ""
+    if request.method == 'POST':
+        session['email_fkeep'] = remove_malicious_characters(request.form['email'])
+        hashedPassword = hash(request.form['password'])
+        obvious_print("Website POST :" + str(hashedPassword))
+        user_doc = collection_users.find_one({'email':session['email_fkeep']})
+        try:
+            databaseHashedPassword = user_doc['hashed_password']
+            obvious_print("Database :" + str(databaseHashedPassword))
+            if databaseHashedPassword == hashedPassword:
+                session["user_first_name"] = user_doc['first_name']
+                session["user_last_name"] = user_doc['last_name']
+                obvious_print(session)
+                return "Login Sucessful"
+            else:
+                error = "Invalid Password"
+                #return "<p>Wrong password. <a href='/login'>Back to logging in.</a></p>"
+        except:
+            error = "An account with this email does not exist yet."
+            #return "<p>An account with this email does not exist yet.<br><br><!--If you don't have an account, you can create one it by clicking <a href='/create_an_account'>create account</a>.--><br><br>--> <a href='/login'>Back to logging in.</a> <--</p>"
+    return render_template('login.html', error=error, email_field=session['email_fkeep'])
+
+@app.route('/create_an_account', methods=['POST', 'GET'])
+def create_an_account():
+    error = ""
+    if 'first_name_fkeep' not in session:
+        session['first_name_fkeep'] = ""
+    if 'last_name_fkeep' not in session:
+        session['last_name_fkeep'] = ""
+    if 'email_fkeep' not in session:
+        session['email_fkeep'] = ""
+    if request.method == 'POST':
+        obvious_print("Request.method Passed. It's a POST.")
+        obvious_print(request.form) #Hackable (password)
+        session['first_name_fkeep'] = remove_malicious_characters(request.form['first_name'], True)
+        session['last_name_fkeep'] = remove_malicious_characters(request.form['last_name'], True)
+        session['email_fkeep'] = remove_malicious_characters(request.form['email'])
+        session['username'] = strip_accents((session['first_name_fkeep'] + "_" + session['last_name_fkeep']).lower())
+        hashedPassword = hash(request.form['password'])
+        if session['first_name_fkeep'] == "" or session['last_name_fkeep'] == "" or session['email_fkeep'] == "" or hashedPassword == 0:
+            return 'ARTHUR BORDEL !!!!!'
+        #Then, we check if username exists already in list
+        username_list = collection_users.distinct('username', {}, {})
+        if session['username'] in username_list:
+            session['username'] = session['username'] + "_0"
+            userNameIncrement = 0
+            while session['username'] in username_list:
+                userNameIncrement += 1
+                session['username'] = session['username'][:-1] + str(userNameIncrement)
+        #Then, we check if email already exists in list.
+        email_list = collection_users.distinct('email', {}, {})
+        if not isEmailLegitimate(session['email_fkeep']):
+            error = "Invalid email adress"
+        elif session['email_fkeep'] in email_list:
+            #return "<p>An account with this email already exists.<br><br><!--If you already have an account, you can access it by clicking <a href='/login'>login</a>.--><br><br>--> <a href='/create_an_account'>Back to creating my account.</a> <--</p>"
+            error = "An account with this email adress already exists"
+        else:
+            collection_users.insert_one({"first_name": session['first_name_fkeep'], "last_name": session['last_name_fkeep'], "username": session['username'] ,"email": session['email_fkeep'], "hashed_password": hashedPassword, "verified_email":False})
+            return "Here, we pretend that you're receiving an email confirmation. Once you have received it and clicked on the link, you can <a href='login'>Log in</a>."
+            #return redirect(url_for("userX", userName="session['username']", fromAccountCreation=True)) # This will be obsolete
+    return render_template('create_an_account.html', error=error, first_name_field=session['first_name_fkeep'], last_name_field=session['last_name_fkeep'], email_field=session['email_fkeep']) ####################################
+
+@app.route('/terms_of_use')
+def terms_of_use():
+    return render_template('terms_of_use.html')
+
 @app.route('/admin')
 def admin():
     if bullshitery == True:
@@ -248,13 +442,6 @@ def admin():
         return redirect(url_for("pagex", testx="PUUUUUUUUUUUUTE"))
     else:
         return redirect(url_for("index"))
-
-@app.route('/<testx>')
-def pagex (testx):
-    if bullshitery == True:
-        return ('Bonjour, jeune <h1>' + testx + '</h1>')
-    else:
-        return ('Bonjour, jeune <h1>' + testx + '</h1>' + '\npss, 4o4 !'+ '\npss, 4o4')
 
 if __name__ == '__main__':
     app.run(debug=True) #host='0.0.0.0', port=80, 
@@ -273,8 +460,11 @@ def backlog(): # You can make that shit vary of course
     print("Do some basic UX design. AT LEAST for the first page. Something easy to use. Nice looking. Cool. And that would make an easy transition into the next features. Should be responsive (PWA).")
     print("It seems that ideally, i'd recode that shit. (maybe learn a bit more first). After doing a bit of UX")
 
-backlog()
-
+def cyber_security_warnings():
+    print("\n\n")
+    print("Cyber Security Warnings :")
+    print("We use the classic python hash function. That's probably not a good thing.\nBecause people can hash passwords and know what's on our databases. If they manage to change the hashed password on the database, they can choose exactly the password they want.")
+    print("\n\n")
 
 ''' Ricardo Mendieta : Creative advertising
 notes : 

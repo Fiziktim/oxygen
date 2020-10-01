@@ -8,8 +8,7 @@ collection = db["questions"]
 
 
 
-
-
+NEW : Find all documents for which one argument is greater than x : {"CountID":{$gt: 82}}
 
 
 
