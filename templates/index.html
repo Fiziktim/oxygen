@@ -28,7 +28,7 @@
         </form>
     </div>
     <br>
-    <p style="color:lightgray">Source : That japanese teacher</p>
+    <p style="color:lightgray">Source : {{ main_source }}</p>
     <br>
     <p>{{ display_this_question }}</p>
     <br><br>
@@ -45,36 +45,58 @@
     <div class="form">
         <form action="/" method="POST">
             <p>Write your new question here:</p>
-            <input class="form_input" type="text" name="new_question" id="new_question" size="50" required><br>
+            <input class="form_input" type="text" name="new_question" id="new_question" size="60" row="2" required><br>
             <input type="radio" id="False" name="htmlTruth" value="False" required>
             <label for="False">False</label>
             <input type="radio" id="True" name="htmlTruth" value="True" required>
             <label for="True">True</label><br>
-            <select id="source_type" name="source_type">
-                <option value="">Source type : </option>
-                <option value="">Myself</option>
-                <option value="">Myself, as an expert in this subject</option>
-                <option value="">Someone I know / friend</option>
-                <option value="au">Video</option>
-                <option value="ca">Article</option>
-                <option value="usa">Book</option>
-                <option value="">Podcast</option>
-                <option value="">Radio</option>
-                <option value="">TV</option>
-                <option value="">Cinema</option>
-                <option value="">An Expert I know</option>
-                <option value="">Conference</option>
-                <option value="">Course (class)</option> 
-                <option value="">Scientific Study</option>
-                <option value="">Scientific Meta Analysis</option>
-                <option value="">Other</option>               
-            </select>
             <input class="form_input" type="text" name="source" id="source" size="20" placeholder="Source : " required>
+            <select id="source_type" name="source_type">
+                <option style="color: grey" value="_x_">Source type : </option>
+                <option value="myself">Myself</option>
+                <option value="something_i_heard">Something I've heard</option>
+                <option value="myself_as_an_expert">Myself, as an expert in this subject</option>
+                <option value="friend">Someone I know / friend</option>
+                <option value="video">Video</option>
+                <option value="article">Article</option>
+                <option value="book">Book</option>
+                <option value="podcast">Podcast</option>
+                <option value="radio">Radio</option>
+                <option value="tv">TV</option>
+                <option value="cinema">Cinema</option>
+                <option value="expert">An Expert I know</option>
+                <option value="conference">Conference</option>
+                <option value="course">Course (class)</option> 
+                <option value="study">Scientific Study</option>
+                <option value="social_media_post">Social Media Post</option>
+                <option value="meta_analysis">Scientific Meta Analysis</option>
+                <option value="other">Other</option>               
+            </select>
             <input class="form_input" type="text" name="source_author" id="source_author" size="20" placeholder="Source Author : "><br><br>
             <input type="button" name="add_source" value="From : (add source)"><br><br>
-
-            <input class="form_input" type="text" name="source_type_2" id="source_type_2" size="20" placeholder="Source_type__ ">
+            
             <input class="form_input" type="text" name="source_2" id="source_2" size="20" placeholder="Source : " >
+            <select id="source_type_2" name="source_type_2">
+                <option value="_x_">Source type : </option>
+                <option value="myself">Myself</option>
+                <option value="something_i_heard">Something I've heard</option>
+                <option value="myself_as_an_expert">Myself, as an expert in this subject</option>
+                <option value="friend">Someone I know / friend</option>
+                <option value="video">Video</option>
+                <option value="article">Article</option>
+                <option value="book">Book</option>
+                <option value="podcast">Podcast</option>
+                <option value="radio">Radio</option>
+                <option value="tv">TV</option>
+                <option value="cinema">Cinema</option>
+                <option value="expert">An Expert I know</option>
+                <option value="conference">Conference</option>
+                <option value="course">Course (class)</option> 
+                <option value="study">Scientific Study</option>
+                <option value="social_media_post">Social Media Post</option>
+                <option value="meta_analysis">Scientific Meta Analysis</option>
+                <option value="other">Other</option>               
+            </select>
             <input class="form_input" type="text" name="source_author_2" id="source_author_2" size="20" placeholder="Source Author : "><br><br>
             
             <p style="display: inline;">Field :  </p>

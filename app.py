@@ -298,9 +298,11 @@ def index():
                 question_to_display = finite
             #obvious_print(find_tag_CountID_by_main_english_name(session['upper_tag']))
 
+            main_source = "The ultimate mexican teacher"
 
             print(question_to_display["isTrue"])
             print(request.form["mainTruth"])
+            obvious_print(main_source)
             if str(request.form["mainTruth"]) == str(question_to_display["isTrue"]):
                 session["in_a_row"] += 1
                 in_a_row = session["in_a_row"]
@@ -314,7 +316,7 @@ def index():
             #question_to_display = {"question" : "Chibros del bengalos ?"}
             print("\n\n\n-------")
             tag_collection = return_all_present_tags_with_their_CountIDs_or_just_the_tags(False, False)
-            return render_template("index.html", display_this_question=question_to_display["question"], in_a_row=in_a_row, tag_collection=tag_collection)
+            return render_template("index.html", display_this_question=question_to_display["question"], in_a_row=in_a_row, tag_collection=tag_collection, main_source=main_source)
         elif requestMethod_firstChars == "uppe":
             obvious_print("uppe request")
             in_a_row = 0

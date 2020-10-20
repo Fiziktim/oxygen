@@ -30,6 +30,14 @@ input[type=text] {
 input[type="radio"]:checked + label {
     color: var(--classic-text);
 }
+
+select{
+    background-color: var(--form-background);
+    color: var(--classic-text);
+    border: none;
+    padding: 0.25rem;
+}
+
     
 /*
 b  {
