@@ -177,6 +177,7 @@ def return_all_present_tags_with_their_CountIDs_or_just_the_tags(option_both, al
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    return "Hello heroku world, Debug"
     if request.method == "POST":
         field_to_use_and_display = ""
         session.permanent = True
