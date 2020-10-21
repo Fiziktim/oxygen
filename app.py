@@ -177,7 +177,7 @@ def return_all_present_tags_with_their_CountIDs_or_just_the_tags(option_both, al
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    return "Hello heroku world, Debug"
+    #return "Hello heroku world, Debug"
     if request.method == "POST":
         field_to_use_and_display = ""
         session.permanent = True
@@ -327,7 +327,8 @@ def index():
             tag_collection = return_all_present_tags_with_their_CountIDs_or_just_the_tags(False, False) # THIS LINE IS REPEATED
             print("\n" + session["upper_tag"] + "\n")
             return render_template("index.html", display_this_question=question_to_display["question"], in_a_row=in_a_row, tag_collection=tag_collection, field_to_use_and_display=session["upper_tag"], source_path=session["source_path"]) # THIS LINE IS REPEATED
-    else:
+    elif request.method == 'GET':
+        '''
         random_id = random.randint(0, collection.count_documents({}))
         question_to_display = collection.find_one({"CountID": random_id})
         #return render_template("index.html")
@@ -336,6 +337,11 @@ def index():
         else : in_a_row = session["in_a_row"]
         tag_collection = return_all_present_tags_with_their_CountIDs_or_just_the_tags(False, False)
         return render_template("index.html", display_this_question=question_to_display["question"], in_a_row=in_a_row, tag_collection=tag_collection) #Knows to look in the file "templates"
+        '''
+        return "hello world wth pranav"
+    else:
+        obvious_print("failed")
+        return "failed"
 
 @app.route('/patapouf')
 def chibre_du_bengale():
